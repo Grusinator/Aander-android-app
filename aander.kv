@@ -1,0 +1,274 @@
+##: from kivy.uix.ScreenManager import FadeTransition
+
+
+##change defaults
+
+<Label>:
+    font_name: 'fonts/AmaticSC-Regular.ttf'
+    font_size: 50
+
+<Button>:
+    font_name: 'fonts/AmaticSC-Regular.ttf'
+    font_size: 50
+    height: 50
+
+
+<MainScreen>:
+    name: 'menu'
+    Image:
+        source: "images/deamon.jpg"
+    BoxLayout:
+        id: box
+        orientation: "horizontal"
+        rows: 1
+        size_hint: (1, None)
+        height: app.menu_height
+        spacing: 5
+        padding: 5
+        Button:
+            text: 'Adventures'
+            on_release: app.root.current = 'adventures'
+        Button:
+            text: 'Treasures'
+            on_release: app.root.current = 'treasures'
+        Button:
+
+            text: 'Library'
+            on_release: app.root.current = 'login'
+        Button:
+
+            text: 'Exit'
+            on_release: app.stop()
+
+
+<SignUpScreen>:
+    name: 'signup'
+    _username: _username
+    _password: _password
+    FloatLayout:
+        Label:
+            text: 'Create a new account'
+            pos: 350, 450
+            size_hint: .1, .2
+            font_size: 36
+    TextInput:
+        id: _username
+        hint_text: 'Username'
+        font_size: 20
+        pos: 280, 350
+        size_hint: .3, .07
+    TextInput:
+        id: _password
+        hint_text: 'Password'
+        font_size: 20
+        pos: 280, 300
+        size_hint: .3, .07
+    Button:
+        text: 'Create Account'
+        pos: 280, 200
+        size_hint: .3, .07
+        font_size: 16
+        on_press: root.createUserAccount()
+    Button:
+        text: 'back'
+        pos: 280, 100
+        size_hint: .3, .07
+        font_size: 16
+        on_release: app.root.current = 'login'
+
+<LoginScreen>:
+    name: 'login'
+    FloatLayout:
+        Label:
+            text: 'Login info'
+            pos: 350, 450
+            size_hint: .1, .2
+            font_size: 36
+        TextInput:
+            id: _username
+            hint_text: 'Username'
+            font_size: 20
+            pos: 280, 350
+            size_hint: .3, .07
+        TextInput:
+            id: _password
+            hint_text: 'Password'
+            font_size: 20
+            pos: 280, 300
+            size_hint: .3, .07
+    BoxLayout:
+        id: box
+        orientation: "horizontal"
+        rows: 1
+        size_hint: (1, None)
+        height: app.menu_height
+        spacing: 5
+        padding: 5
+        Button:
+            text: 'Login'
+            on_release: app.root.current = 'menu' ##app.root.current = 'adventures'
+        Button:
+            text: 'Create User'
+            on_release: app.root.current = 'signup'
+        Button:
+            text: 'Exit'
+            on_release: app.stop()
+
+
+<AdventuresScreen>:
+    name: 'adventures'
+
+    BoxLayout:
+        id: box
+        orientation: "vertical"
+        padding: 10, 10
+        row_default_height: '48dp'
+        row_force_default: True
+        spacing: 10, 10
+
+
+        ScrollView:
+            id: scroll_view
+            size: self.size
+            app: app
+            GridLayout:
+                canvas:
+
+                id: adventures_list
+                size_hint_y: None
+                cols: 1
+                row_default_height: '50dp'
+                row_force_default: True
+                spacing: 0, 0
+                padding: 0, 0
+
+    BoxLayout:
+        orientation: "horizontal"
+        rows: 1
+        size_hint: (1, None)
+        height: app.menu_height
+        spacing: 5
+        padding: 5
+
+        Button:
+            text: 'Search'
+            on_release: self.parent.parent.updateadventurelist()
+        Button:
+            text: 'back'
+            on_release: app.root.current = 'menu'
+
+
+<AdventureVisualizer>:
+    orientation: "vertical"
+    name: 'adventure_vis'
+    height:
+    Button:
+        height: 200
+        color: 0, 0, 0, 1
+        on_release: app.root.current = 'clues'
+
+        BoxLayout:
+            pos: self.parent.pos
+            size: self.parent.size
+            orientation: "horizontal"
+            rows: 1
+            spacing: 5
+            padding: 5
+            Image:
+                source: 'images/map_trans.jpg'
+                height: self.parent.parent.height
+                width: 74
+            Label:
+                width: 100
+                text: self.parent.parent.parent.title
+
+
+<CluesScreen>:
+    name: 'clues'
+
+    ScrollView:
+        size: self.size
+        GridLayout:
+            id: clues_list
+            size_hint_y: None
+            cols: 1
+            row_default_height: '50dp'
+            row_force_default: True
+            spacing: 0, 0
+            padding: 0, 0
+
+            Label:
+                text: "Clues Lorem ipsum dolor sit amet"
+
+    BoxLayout:
+        orientation: "horizontal"
+        rows: 1
+        size_hint: (1, None)
+        height: app.menu_height
+        spacing: 5
+        padding: 5
+
+        Button:
+            text: 'Search'
+            on_release: app.search()
+        Button:
+            text: 'back'
+            on_release: app.root.current = 'adventures'
+
+
+
+<CluesVisualizer>:
+    orientation: "vertical"
+    name: 'clues_vis'
+    Label:
+        text: self.parent.text
+        pos: self.parent.pos
+        size: self.parent.size
+        color: 0, 0, 0, 1
+        canvas.before:
+            Rectangle:
+                pos: self.parent.pos
+                size: self.parent.size
+                source: "images/scroll_frame1.png"
+
+
+<TreasuresScreen>:
+    name: 'treasures'
+    Label:
+        text: "treasures"
+
+    BoxLayout:
+        orientation: "horizontal"
+        rows: 1
+        size_hint: (1, None)
+        height: app.menu_height
+        spacing: 5
+        padding: 5
+
+        Button:
+            text: 'Search'
+            on_release: app.search()
+        Button:
+            text: 'back'
+            on_release: app.root.current = 'menu'
+
+
+
+<LibraryScreen>:
+    name: 'Library'
+    Label:
+        text: "library"
+    BoxLayout:
+        orientation: "horizontal"
+        rows: 1
+        size_hint: (1, None)
+        height: app.menu_height
+        spacing: 5
+        padding: 5
+
+        Button:
+            text: 'Search'
+            on_release: app.search()
+        Button:
+            text: 'back'
+            on_release: app.root.current = 'menu'
